@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>For Hanna</title>
+<style>
+  :root {
+    --bg: #0d0f13;
+    --card: #131722;
+    --text: #e8ecf1;
+    --sub: #a7b0bd;
+    --accent: #7cc4ff;
+    --accent2: #ffd29e;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    background: radial-gradient(1200px 800px at 20% -10%, #1a2130 0%, var(--bg) 60%) no-repeat,
+                linear-gradient(160deg, #0b0d11 0%, #0d0f13 100%);
+    color: var(--text);
+    font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, sans-serif;
+  }
+  .card {
+    width: min(900px, 92vw);
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)) padding-box,
+                radial-gradient(120% 120% at 10% -10%, rgba(124,196,255,0.25), transparent 35%) border-box,
+                radial-gradient(120% 120% at 110% 110%, rgba(255,210,158,0.2), transparent 30%) border-box,
+                var(--card);
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 30px 80px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.05);
+    border-radius: 20px;
+    padding: clamp(20px, 4vw, 40px);
+  }
+  h1 {
+    margin: 0 0 8px 0;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    font-size: clamp(26px, 4vw, 40px);
+    background: linear-gradient(90deg, var(--text), #dfe8f4);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  p.lead {
+    color: var(--sub);
+    margin: 0 0 28px 0;
+  }
+  blockquote {
+    position: relative;
+    margin: 0;
+    padding: 22px 22px 22px 26px;
+    font-size: clamp(18px, 2.2vw, 22px);
+    line-height: 1.75;
+    background: rgba(255,255,255,0.02);
+    border-left: 3px solid var(--accent);
+    border-radius: 10px;
+  }
+  .actions {
+    display: flex; gap: 12px; flex-wrap: wrap; margin-top: 22px;
+  }
+  button, a.btn {
+    appearance: none;
+    border: 1px solid rgba(255,255,255,0.14);
+    background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+    color: var(--text);
+    padding: 10px 14px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: .15s ease-in-out;
+    text-decoration: none;
+  }
+  button:hover, a.btn:hover {
+    transform: translateY(-1px);
+    border-color: rgba(255,255,255,0.25);
+  }
+  .ok { color: #b7ffb7; margin-left: 8px; font-size: 14px; display:none; }
+  footer { margin-top: 26px; color: var(--sub); font-size: 13px; }
+</style>
+</head>
+<body>
+  <main class="card">
+    <h1>From the moment…</h1>
+    <p class="lead">A note, preserved.</p>
+    <blockquote id="quote">From the moment we spoke, I knew you were the one. From the moment we met, I knew I loved you. From the moment we kissed I knew I'd never be able to let you go.</blockquote>
+    <div class="actions">
+      <button id="copyBtn">Copy text<span id="copyOk" class="ok">✓</span></button>
+      <button id="saveBtn">Download as .txt</button>
+    </div>
+    <footer>
+      This page is standalone. Host it anywhere (GitHub Pages, Netlify, S3). No external assets.
+    </footer>
+  </main>
+<script>
+const text = `From the moment we spoke, I knew you were the one. From the moment we met, I knew I loved you. From the moment we kissed I knew I'd never be able to let you go.`;
+document.getElementById('copyBtn').onclick = async () => {
+  await navigator.clipboard.writeText(text);
+  const ok = document.getElementById('copyOk');
+  ok.style.display = 'inline';
+  setTimeout(() => ok.style.display = 'none', 1200);
+};
+document.getElementById('saveBtn').onclick = () => {
+  const blob = new Blob([text], {type: 'text/plain;charset=utf-8'});
+  const url  = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'quote.txt';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+};
+</script>
+</body>
+</html>
